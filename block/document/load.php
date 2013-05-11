@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2010, Josef Kufner  <jk@frozen-doe.net>
+ * Copyright (c) 2013, Josef Kufner  <jk@frozen-doe.net>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,44 +28,45 @@
  * SUCH DAMAGE.
  */
 
-class B_jsondb__test extends Block {
+/**
+ * Load JSON database document.
+ */
+class B_jsondb__document__load extends Block {
 
 	protected $inputs = array(
+		'json_db' => array(),
+		'folder' => array(),
+		'doc_name' => array(),
 	);
 
 	protected $outputs = array(
+		'doc_object' => true,
+		'doc_data' => true,
+		'*' => true,
 		'done' => true,
 	);
 
 
 	public function main()
 	{
-		try {
-			$db = new JsonDatabase\JsonDatabase(DIR_ROOT);
-			debug_dump($db->getBaseLocation(), 'Base location');
+		$db = $this->in('json_db');
+		$folder = $this->in('folder');
+		$document_name = $this->in('doc_name');
 
-			debug_dump($db->listFolders('/'), 'Base folders');
-			debug_dump($db->listFoldersRecursive('/'), 'Base folders (recursive)');
+		$folder = $db->canonizeFolderName($folder);
 
-			debug_dump($db->listDocuments('/data/'), 'Data documents');
+		$document = $db->openDocument($folder, $document_name);
 
-			if ($db->documentExists('/data/', 'hello')) {
-				$db->deleteDocument('/data/', 'hello');
-			}
+		$data = $document->getData();
+		$this->out('doc_object', $document);
+		$this->out('doc_data', $data);
 
-			$obj = $db->createDocument('/data/', 'hello');
-			$obj->foo['bar'] = 'world';
-			debug_dump($obj, 'Document');
-			$obj->close();
-			debug_dump((file_get_contents($db->getDocumentLocation('/data/', 'hello'))), 'file');
-
-			$obj = $db->openDocument('/data/', 'hello');
-			debug_dump($obj, 'Document reloaded');
-
+		foreach ($document->getSections() as $section) {
+			$this->out('sec_'.$section, $data[$section]);
 		}
-		catch (Exception $ex) {
-			debug_dump($ex, '!!! Exception');
-		}
+
+		$this->out('done', true);
 	}
+
 }
 

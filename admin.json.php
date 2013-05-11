@@ -5,13 +5,7 @@
 			"children": {
 				"jsondb": {
 					"title": "JSON Database",
-					"link": "/admin/devel/jsondb",
-					"children": {
-						"test": {
-							"title": "Tests",
-							"link": "/admin/devel/jsondb-test"
-						}
-					}
+					"link": "/admin/devel/jsondb"
 				}
 			}
 		}

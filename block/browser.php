@@ -34,12 +34,13 @@ class B_jsondb__browser extends Block {
 		'base_location' => DIR_ROOT,
 		'folder' => '/',
 		'tree_link' => '/admin/devel/jsondb{folder}',
-		'document_link' => '/admin/devel/jsondb{folder}{document}',
+		'document_link' => '/admin/devel/jsondb{folder}?document={document}',
 		'slot' => 'default',
 		'slot_weight' => 50,
 	);
 
 	protected $outputs = array(
+		'folder' => true,
 		'tree_menu' => true,
 		'document_list' => true,
 		'document_list_columns' => true,
@@ -58,9 +59,10 @@ class B_jsondb__browser extends Block {
 		$tree_link = $this->in('tree_link');
 		$document_link = $this->in('document_link');
 
-		$db = new JsonDatabase\JsonDatabase($base_location);
+		$db = new JsonDb\JsonDatabase($base_location);
 
 		$folder = $db->canonizeFolderName($folder);
+		$this->out('folder', $folder);
 
 		// Folder tree
 		$this->out('tree_menu', $this->buildTreeMenu($db, $tree_link));
@@ -84,7 +86,7 @@ class B_jsondb__browser extends Block {
 				'type' => 'text',
 				'title' => _('Document'),
 				'key' => 'document',
-				'link' => $document_link,
+				'link' => function($row) use ($document_link) { return filename_format($document_link, $row); },
 			),
 		));
 	}
