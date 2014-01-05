@@ -1,0 +1,19 @@
+{
+	"name": "cascade/jsondb",
+	"type": "cascade-plugin",
+	"description": "JSON Database browser",
+	"license": "BSD-3-Clause",
+	"authors": [
+		{
+			"name": "Josef Kufner",
+			"email": "jk@frozen-doe.net"
+		}
+	],
+	"extra": {
+		"plugin": "jsondb"
+	},
+	"require": {
+		"cascade/composer-plugin": "dev-master"
+	}
+}
+
