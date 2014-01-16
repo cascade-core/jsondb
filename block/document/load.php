@@ -19,7 +19,7 @@
 /**
  * Load JSON database document.
  */
-class B_jsondb__document__load extends Block {
+class B_jsondb__document__load extends \Cascade\Core\Block {
 
 	protected $inputs = array(
 		'json_db' => array(),

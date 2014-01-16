@@ -12,8 +12,11 @@
 	"extra": {
 		"plugin": "jsondb"
 	},
+	"autoload": {
+		"psr-4": { "JsonDb\\": "class/" }
+	},
 	"require": {
-		"cascade/composer-plugin": "dev-master"
+		"cascade/composer-plugin": ">=1.1"
 	}
 }
 

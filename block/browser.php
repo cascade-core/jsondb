@@ -16,7 +16,7 @@
  *
  */
 
-class B_jsondb__browser extends Block {
+class B_jsondb__browser extends \Cascade\Core\Block {
 
 	protected $inputs = array(
 		'base_location' => DIR_ROOT,
